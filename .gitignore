@@ -1,0 +1,15 @@
+# Node.js backend (server)
+server/node_modules
+server/.env
+
+# Next.js frontend (client)
+client/node_modules
+client/.next
+client/.env
+
+# Logs and system files
+*.log
+.DS_Store
+
+# Git submodule clean-up
+.gitmodules
