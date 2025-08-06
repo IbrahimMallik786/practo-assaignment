@@ -3,12 +3,17 @@ const cors = require('cors');
 const nodemailer = require('nodemailer');
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+// ✅ Enable CORS only for your Vercel frontend
+app.use(cors({
+  origin: 'https://practo-assaignment-b2b2-ibrahim-mallicks-projects.vercel.app',
+  methods: ['GET', 'POST'],
+}));
+
 app.use(express.json());
 
-// Dummy doctor data
+// ✅ Dummy doctor data
 const doctors = [
   {
     id: 1,
@@ -28,23 +33,22 @@ const doctors = [
     fees:'₹800 Consulation Fee at clinic',
     image: 'pic2.png'
   },
-  
 ];
 
-// API to get doctors
+// ✅ API to get doctor list
 app.get('/api/doctors', (req, res) => {
   res.json(doctors);
 });
 
-// API to handle booking with email notification
+// ✅ API to handle bookings and send confirmation email
 app.post('/api/book', async (req, res) => {
   const { name, email, date, time, doctor } = req.body;
 
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'ibrahimmallik976@gmail.com',         // Replace with your Gmail
-      pass: 'your-app-password'            // Replace with your Gmail App Password
+      user: 'ibrahimmallik976@gmail.com', // 🔒 Use environment variable in production
+      pass: 'your-app-password'           // 🔒 Replace with Gmail App Password
     }
   });
 
@@ -64,7 +68,7 @@ app.post('/api/book', async (req, res) => {
   }
 });
 
-// Start server
+// ✅ Start server
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
 });
